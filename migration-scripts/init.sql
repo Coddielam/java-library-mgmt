@@ -3,10 +3,13 @@ CREATE TABLE authors (
     author_name TEXT
 );
 
+CREATE TYPE book_status AS ENUM ('AVAILABLE', 'UNAVAILABLE');
+
 CREATE TABLE books (
     id SERIAL PRIMARY KEY,
     title TEXT,
     isbn TEXT,
+    book_status book_status DEFAULT 'AVAILABLE',
     authorId INT REFERENCES authors(id)
 );
 

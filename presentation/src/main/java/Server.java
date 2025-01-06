@@ -2,6 +2,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.sql.SQLException;
 
 public class Server {
     public static void main(String[] args) throws Exception {
@@ -28,12 +29,19 @@ public class Server {
             BooksController booksController = serviceLocator.getService("BookController");
             httpServer
                     .createContext("/books")
-                    .setHandler(booksController::handleGetBooks);
+                    .setHandler(exchange -> {
+                        try {
+                            booksController.handleGetBooks(exchange);
+                        } catch (SQLException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    });
 
             httpServer.start();
             System.out.println(">>> Server listening on http://localhost:8080");
 
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
             System.exit(1);
         }

@@ -7,6 +7,7 @@ import org.example.dto.GetBookDto;
 import org.example.entity.Book;
 import org.example.repository.BookRepository;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -19,13 +20,13 @@ public class BookServiceImpl implements BooksService{
     }
 
     @Override
-    public BookDto get(GetBookDto dto) {
+    public BookDto get(GetBookDto dto) throws SQLException {
         Book book = bookRepository.get(dto.id());
         return BookDtoMapper.mapToBookDto(book);
     }
 
     @Override
-    public Collection<BookDto> get() {
+    public Collection<BookDto> get() throws SQLException {
         return bookRepository.get()
                 .stream()
                 .map(BookDtoMapper::mapToBookDto)
@@ -33,19 +34,19 @@ public class BookServiceImpl implements BooksService{
     }
 
     @Override
-    public BookDto create(CreateBookDto dto) {
+    public BookDto create(CreateBookDto dto) throws SQLException{
         Book book = bookRepository.create(BookDtoMapper.mapToBook(dto));
         return BookDtoMapper.mapToBookDto(book);
     }
 
     @Override
-    public BookDto update(BookDto dto) {
+    public BookDto update(BookDto dto) throws SQLException {
         Book book = bookRepository.update(BookDtoMapper.mapToBook(dto));
         return BookDtoMapper.mapToBookDto(book);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws SQLException {
         Book book = bookRepository.get(id);
         if (book != null) {
             bookRepository.delete(book);

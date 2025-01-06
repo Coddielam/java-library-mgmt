@@ -2,6 +2,7 @@ import com.sun.net.httpserver.HttpExchange;
 import org.example.services.BooksService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class BooksController extends ControllerBase  {
 
@@ -11,7 +12,7 @@ public class BooksController extends ControllerBase  {
         this.booksService = booksService;
     };
 
-    public void handleGetBooks(HttpExchange httpExchange) throws IOException {
+    public void handleGetBooks(HttpExchange httpExchange) throws IOException, SQLException {
         sendResponse(
                 httpExchange,
                 "application/json",
