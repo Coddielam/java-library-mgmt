@@ -2,6 +2,7 @@ import org.example.services.BookServiceImpl;
 
 public class ServerServiceInitalizationContext implements ServiceInitializationContext {
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T getService(String serviceName) throws Exception {
         System.out.println("Initialize " + serviceName);
