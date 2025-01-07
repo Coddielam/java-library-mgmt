@@ -28,7 +28,7 @@ public class ControllerBase {
             Headers headers = httpExchange.getResponseHeaders();
             headers.set("Content-Type", contentType);
             httpExchange.sendResponseHeaders(status, text.length());
-
+            
             // 2. write response body
             outputStream.write(text.getBytes());
         } catch (Exception e) {

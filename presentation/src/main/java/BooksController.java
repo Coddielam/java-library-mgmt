@@ -1,6 +1,5 @@
 import com.sun.net.httpserver.HttpExchange;
 
-import org.example.dto.BookDto;
 import org.example.dto.CreateBookDto;
 import org.example.services.BooksService;
 
@@ -18,9 +17,8 @@ public class BooksController extends ControllerBase {
     };
 
     public void handleGetBooks(HttpExchange httpExchange) throws IOException, SQLException {
-        sendResponse(
+        sendJson(
                 httpExchange,
-                "application/json",
                 this.booksService.get(),
                 200);
     }
