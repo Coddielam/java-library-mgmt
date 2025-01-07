@@ -17,17 +17,17 @@ public class PatronRepositoryImpl implements PatronRepository {
     }
 
     @Override
-    public Patron create(Patron entity) {
-        return null;
+    public int create(Patron entity) {
+        return 0;
     }
 
     @Override
-    public Patron update(Patron entity) {
-        return null;
+    public int update(Patron entity) {
+        return 0;
     }
 
     @Override
-    public boolean delete(Patron entity) {
-        return false;
+    public int delete(Patron entity) {
+        return 0;
     }
 }

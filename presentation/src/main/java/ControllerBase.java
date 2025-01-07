@@ -3,18 +3,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 public class ControllerBase {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    protected static void sendResponse(HttpExchange httpExchange, String contentType, Object data, int status) {
+    protected static final <T> T parse(String json, Class<T> c) throws IOException {
+        return objectMapper.readValue(json, c);
+    }
+
+    protected static final void sendJson(HttpExchange httpExchange, Object data, int status) {
+        sendResponse(httpExchange, "application/json", data, status);
+    }
+
+    protected static final void sendResponse(HttpExchange httpExchange, String contentType, Object data, int status) {
         try (
                 OutputStream outputStream = httpExchange.getResponseBody()
         ) {
             // 1. set res headers
-            String text = parseData(data, contentType);
+            String text = parseResponseData(data, contentType);
 
             Headers headers = httpExchange.getResponseHeaders();
             headers.set("Content-Type", contentType);
@@ -27,7 +36,7 @@ public class ControllerBase {
         }
     }
 
-    private static String parseData(Object data, String type) throws JsonProcessingException {
+    private static String parseResponseData(Object data, String type) throws JsonProcessingException {
         return switch (type) {
             case "application/json" -> objectMapper.writeValueAsString(data);
             case "text/plain" -> data.toString();

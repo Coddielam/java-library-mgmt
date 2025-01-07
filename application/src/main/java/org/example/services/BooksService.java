@@ -10,7 +10,7 @@ import java.util.Collection;
 public interface BooksService {
     BookDto get(GetBookDto dto) throws SQLException;
     Collection<BookDto> get() throws SQLException;
-    BookDto create(CreateBookDto dto) throws SQLException;
-    BookDto update(BookDto dto) throws SQLException;
-    void delete(String id) throws SQLException;
+    int create(CreateBookDto dto) throws SQLException;
+    int update(BookDto dto) throws SQLException;
+    int delete(String id) throws SQLException;
 }

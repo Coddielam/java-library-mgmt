@@ -16,17 +16,17 @@ public class BorrowingImpl implements BorrowingRepository {
     }
 
     @Override
-    public Borrowing create(Borrowing entity) {
-        return null;
+    public int create(Borrowing entity) {
+        return 0;
     }
 
     @Override
-    public Borrowing update(Borrowing entity) {
-        return null;
+    public int update(Borrowing entity) {
+        return 0;
     }
 
     @Override
-    public boolean delete(Borrowing entity) {
-        return false;
+    public int delete(Borrowing entity) {
+        return 0;
     }
 }

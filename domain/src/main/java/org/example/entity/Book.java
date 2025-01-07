@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Book {
     private String id;
     private String title;
-    private String authorId;
+    private String authorName;
     private String isbn;
     private BookStatus bookStatus;
 
@@ -25,14 +25,6 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
-    }
-
     public String getIsbn() {
         return isbn;
     }
@@ -47,6 +39,14 @@ public class Book {
 
     public void setBookStatus(BookStatus bookStatus) {
         this.bookStatus = bookStatus;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     @Override

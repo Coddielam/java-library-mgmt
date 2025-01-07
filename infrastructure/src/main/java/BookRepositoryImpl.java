@@ -12,9 +12,6 @@ import java.util.*;
 
 public class BookRepositoryImpl implements BookRepository {
 
-    // TODO replace with an sql db
-    private final HashMap<String, Book> bookDb = new HashMap<>();
-
     @Override
     public Book get(String id) throws SQLException {
         try (
@@ -30,8 +27,8 @@ public class BookRepositoryImpl implements BookRepository {
                 book.setId(resultSet.getString("id"));
                 book.setTitle(resultSet.getString("title"));
                 book.setIsbn(resultSet.getString("isbn"));
-                book.setBookStatus(BookStatus.AVAILABLE); // FIXME
-                book.setAuthorId(resultSet.getString("authorId"));
+                book.setBookStatus(BookStatus.valueOf(resultSet.getString("book_status"))); // FIXME
+                book.setAuthorName(resultSet.getString("author_name"));
                 return book;
             }
             return null;
@@ -55,8 +52,7 @@ public class BookRepositoryImpl implements BookRepository {
                 book.setTitle(resultSet.getString("title"));
                 book.setIsbn(resultSet.getString("isbn"));
                 book.setBookStatus(BookStatus.valueOf(resultSet.getString("book_status")));
-                book.setAuthorId(resultSet.getString("authorId"));
-                
+                book.setAuthorName(resultSet.getString("author_name"));
                 books.add(book);
             }
             
@@ -65,26 +61,34 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Book create(Book book) {
-        return bookDb.put(UUID.randomUUID().toString(), book);
-    }
-
-    @Override
-    public Book update(Book book) {
-        return bookDb.put(UUID.randomUUID().toString(), book);
-    }
-
-    @Override
-    public boolean delete(Book book) {
-        boolean removed = false;
-        for (Book b : bookDb.values()) {
-            if (b.equals(book)) {
-                bookDb.remove(b.getId());
-                removed = true;
-                break;
-            };
+    public int create(Book book) throws SQLException {
+        try (
+            Connection connection = DataSource.getConnection()
+        ) {
+            String sql = """
+                    INSERT INTO books 
+                    (title, isbn, book_status, author_name)
+                    VALUES
+                    (?, ?, ?, ?);
+                    """;;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(2, book.getIsbn());
+            preparedStatement.setString(3, BookStatus.AVAILABLE.name());
+            preparedStatement.setString(4, book.getAuthorName());
+            
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected;
         }
+    }
 
-        return removed;
+    @Override
+    public int update(Book book) {
+        return 1;
+    }
+
+    @Override
+    public int delete(Book book) {
+        return 1;
     }
 }

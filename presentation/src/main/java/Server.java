@@ -31,7 +31,13 @@ public class Server {
                     .createContext("/books")
                     .setHandler(exchange -> {
                         try {
-                            booksController.handleGetBooks(exchange);
+                            String requestMethod = exchange.getRequestMethod();
+                            System.out.println(requestMethod);
+
+                            switch (requestMethod) {
+                                case "GET" -> booksController.handleGetBooks(exchange);
+                                case "POST" -> booksController.handlePostBooks(exchange);
+                            }
                         } catch (SQLException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();

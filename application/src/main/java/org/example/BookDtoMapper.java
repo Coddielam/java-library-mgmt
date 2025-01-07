@@ -10,8 +10,7 @@ public class BookDtoMapper {
         return new BookDto(
                 book.getId(),
                 book.getTitle(),
-                book.getAuthorId(),
-                book.getIsbn(),
+                book.getAuthorName(),
                 book.getIsbn(),
                 book.getBookStatus()
         );
@@ -21,7 +20,7 @@ public class BookDtoMapper {
         Book book = new Book();
         book.setId(dto.id());
         book.setTitle(dto.title());
-        book.setAuthorId(dto.authorId());
+        book.setAuthorName(dto.authorName());
         book.setIsbn(dto.isbn());
         book.setBookStatus(dto.status());
 
@@ -32,7 +31,7 @@ public class BookDtoMapper {
         Book book = new Book();
 
         book.setTitle(dto.title());
-        book.setAuthorId(dto.authorId());
+        book.setAuthorName(dto.authorName());
         book.setIsbn(dto.isbn());
         book.setBookStatus(BookStatus.AVAILABLE);
 

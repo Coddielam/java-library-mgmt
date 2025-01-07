@@ -34,22 +34,23 @@ public class BookServiceImpl implements BooksService{
     }
 
     @Override
-    public BookDto create(CreateBookDto dto) throws SQLException{
-        Book book = bookRepository.create(BookDtoMapper.mapToBook(dto));
-        return BookDtoMapper.mapToBookDto(book);
+    public int create(CreateBookDto dto) throws SQLException{
+        int rowsAffected = bookRepository.create(BookDtoMapper.mapToBook(dto));
+        return rowsAffected;
     }
 
     @Override
-    public BookDto update(BookDto dto) throws SQLException {
-        Book book = bookRepository.update(BookDtoMapper.mapToBook(dto));
-        return BookDtoMapper.mapToBookDto(book);
+    public int update(BookDto dto) throws SQLException {
+        int rowsAffected = bookRepository.update(BookDtoMapper.mapToBook(dto));
+        return rowsAffected;
     }
 
     @Override
-    public void delete(String id) throws SQLException {
+    public int delete(String id) throws SQLException {
         Book book = bookRepository.get(id);
         if (book != null) {
-            bookRepository.delete(book);
+            return bookRepository.delete(book);
         }
+        return 0;
     }
 }
