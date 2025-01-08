@@ -16,8 +16,8 @@ public class BorrowingImpl implements BorrowingRepository {
     }
 
     @Override
-    public int create(Borrowing entity) {
-        return 0;
+    public Borrowing create(Borrowing entity) {
+        return null;
     }
 
     @Override

@@ -34,9 +34,9 @@ public class BookServiceImpl implements BooksService{
     }
 
     @Override
-    public int create(CreateBookDto dto) throws SQLException{
-        int rowsAffected = bookRepository.create(BookDtoMapper.mapToBook(dto));
-        return rowsAffected;
+    public BookDto create(CreateBookDto dto) throws SQLException{
+        Book book = bookRepository.create(BookDtoMapper.mapToBook(dto));
+        return BookDtoMapper.mapToBookDto(book);
     }
 
     @Override

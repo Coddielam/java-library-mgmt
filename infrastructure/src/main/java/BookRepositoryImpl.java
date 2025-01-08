@@ -61,34 +61,79 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public int create(Book book) throws SQLException {
+    public Book create(Book book) throws SQLException {
+        String sql = """
+                INSERT INTO books (title, isbn, book_status, author_name) VALUES (?, ?, ?, ?) RETURNING *;
+                """;
+
         try (
             Connection connection = DataSource.getConnection()
         ) {
-            String sql = """
-                    INSERT INTO books 
-                    (title, isbn, book_status, author_name)
-                    VALUES
-                    (?, ?, ?, ?);
-                    """;;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, book.getTitle());
             preparedStatement.setString(2, book.getIsbn());
             preparedStatement.setString(3, BookStatus.AVAILABLE.name());
             preparedStatement.setString(4, book.getAuthorName());
+
+            preparedStatement.execute();
             
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected;
+            ResultSet rs = preparedStatement.getResultSet();
+            if (rs.next()) {
+                Book insertedBook = new Book();
+                insertedBook.setId(Integer.toString(rs.getInt("id")));
+                insertedBook.setTitle(rs.getString("title"));
+                insertedBook.setIsbn(rs.getString("isbn"));
+                insertedBook.setBookStatus(
+                    BookStatus.valueOf(rs.getString("book_status"))
+                );
+                insertedBook.setAuthorName(rs.getString("author_name"));
+    
+                return insertedBook;
+            } else {
+                throw new SQLException("No generated id");
+            }
         }
     }
 
     @Override
-    public int update(Book book) {
-        return 1;
+    public int update(Book book) throws SQLException {
+        try (
+            Connection connection = DataSource.getConnection()
+        ) {
+            String sql = """
+                    UPDATE books
+                    SET title = ?, 
+                    isbn = ?, 
+                    book_status = ?, 
+                    author_name = ?
+                    WHERE id = ?;
+                    """;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(2, book.getIsbn());
+            preparedStatement.setString(3, book.getBookStatus().name());
+            preparedStatement.setString(4, book.getAuthorName());
+            preparedStatement.setString(5, book.getAuthorName());
+            preparedStatement.setInt(6, Integer.parseInt(book.getId()));
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected;
+        }
+
     }
 
     @Override
-    public int delete(Book book) {
-        return 1;
+    public int delete(Book book) throws SQLException {
+        try (
+            Connection connection = DataSource.getConnection()
+        ) {
+            String sql = """
+                    DELETE FROM books WHERE id = ?;
+                    """;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, Integer.parseInt(book.getId()));
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected;
+        }
     }
 }

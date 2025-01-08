@@ -21,7 +21,7 @@ public class ControllerBase {
     protected static final void sendResponse(HttpExchange httpExchange, String contentType, Object data, int status) throws IOException {
         
         // 1. set res headers
-        String text = parseResponseData(data, contentType);
+        String text = marshall(data, contentType);
         
         Headers headers = httpExchange.getResponseHeaders();
         headers.set("Content-Type", contentType);
@@ -35,7 +35,7 @@ public class ControllerBase {
         httpExchange.close();
     }
 
-    private static String parseResponseData(Object data, String type) throws JsonProcessingException {
+    private static String marshall(Object data, String type) throws JsonProcessingException {
         return switch (type) {
             case "application/json" -> objectMapper.writeValueAsString(data);
             case "text/plain" -> data.toString();

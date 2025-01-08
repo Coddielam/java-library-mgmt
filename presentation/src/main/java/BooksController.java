@@ -1,5 +1,6 @@
 import com.sun.net.httpserver.HttpExchange;
 
+import org.example.dto.BookDto;
 import org.example.dto.CreateBookDto;
 import org.example.services.BooksService;
 
@@ -43,9 +44,9 @@ public class BooksController extends ControllerBase {
     
             // parse to object
             CreateBookDto dto = parse(json, CreateBookDto.class);
-            int rowsAffected = this.booksService.create(dto);
+            BookDto bookDto = this.booksService.create(dto);
     
-            sendJson(httpExchange, null, rowsAffected > 0 ? 204 : 400);
+            sendJson(httpExchange, bookDto, 200);
         }
 
     }

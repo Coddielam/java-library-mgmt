@@ -17,8 +17,8 @@ public class PatronRepositoryImpl implements PatronRepository {
     }
 
     @Override
-    public int create(Patron entity) {
-        return 0;
+    public Patron create(Patron entity) {
+        return null;
     }
 
     @Override

@@ -12,7 +12,6 @@ public class Server {
         InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", 8080);
         try {
             HttpServer httpServer = HttpServer.create(inetSocketAddress, 1);
-
             // Base example
             httpServer
                     .createContext("/")
