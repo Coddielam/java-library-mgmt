@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.SQLException;
 
@@ -44,7 +45,7 @@ public class BookRepositoryImplTest {
     void testDelete() throws SQLException {
         Book book = bookRepository.create(this.book);
         boolean inserted = book != null;
-        assertEquals(inserted, true, "Failed to create book");
+        assertTrue(inserted, "Failed to create book");
         
         int deletedRows = bookRepository.delete(book);
         assertEquals(1, deletedRows);

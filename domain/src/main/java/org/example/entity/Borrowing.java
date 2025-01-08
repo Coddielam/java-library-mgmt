@@ -10,6 +10,7 @@ public class Borrowing {
     private LocalDateTime dueDate;
     private LocalDateTime returnDate;
     private String bookId;
+    private String patronId;
 
     public String getId() {
         return id;
@@ -49,6 +50,14 @@ public class Borrowing {
 
     public void setReturnDate(LocalDateTime returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public String getPatronId() {
+        return patronId;
+    }
+
+    public void setPatronId(String patronId) {
+        this.patronId = patronId;
     }
 
     @Override

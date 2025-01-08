@@ -10,7 +10,6 @@ public class Patron {
     private String id;
     private String name;
     private Address address;
-    private Collection<String> borrowingHistoryIds;
 
     public String getId() {
         return id;
@@ -34,14 +33,6 @@ public class Patron {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public Collection<String> getBorrowingHistoryIds() {
-        return borrowingHistoryIds;
-    }
-
-    public void setBorrowingHistoryIds(Collection<String> borrowingHistoryIds) {
-        this.borrowingHistoryIds = borrowingHistoryIds;
     }
 
     @Override

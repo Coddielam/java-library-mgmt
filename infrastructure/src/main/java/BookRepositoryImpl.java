@@ -31,6 +31,7 @@ public class BookRepositoryImpl implements BookRepository {
                 book.setAuthorName(resultSet.getString("author_name"));
                 return book;
             }
+
             return null;
         }
     }
@@ -102,9 +103,9 @@ public class BookRepositoryImpl implements BookRepository {
         ) {
             String sql = """
                     UPDATE books
-                    SET title = ?, 
-                    isbn = ?, 
-                    book_status = ?, 
+                    SET title = ?,
+                    isbn = ?,
+                    book_status = ?,
                     author_name = ?
                     WHERE id = ?;
                     """;
@@ -116,8 +117,7 @@ public class BookRepositoryImpl implements BookRepository {
             preparedStatement.setString(5, book.getAuthorName());
             preparedStatement.setInt(6, Integer.parseInt(book.getId()));
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected;
+            return preparedStatement.executeUpdate();
         }
 
     }
@@ -132,8 +132,7 @@ public class BookRepositoryImpl implements BookRepository {
                     """;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(book.getId()));
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected;
+            return preparedStatement.executeUpdate();
         }
     }
 }
