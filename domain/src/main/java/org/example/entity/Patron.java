@@ -1,15 +1,14 @@
 package org.example.entity;
 
-import org.example.valueobject.Address;
-
-import java.util.Collection;
 import java.util.Objects;
 
 public class Patron {
 
     private String id;
     private String name;
-    private Address address;
+    private String address;
+    private String city;
+    private String country;
 
     public String getId() {
         return id;
@@ -27,12 +26,28 @@ public class Patron {
         this.name = name;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override

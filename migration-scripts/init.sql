@@ -9,16 +9,12 @@ CREATE TABLE books (
     author_name TEXT
 );
 
-INSERT INTO books (title, isbn, author_name)
-VALUES ('Dear Diary', '978-3-16-148410-0', 'Andrew A.');
-
-INSERT INTO books (title, isbn, author_name)
-VALUES ('My Pokemon Collection', '978-3-16-148410-0', 'Bernard B.');
-
 CREATE TABLE patrons (
     id SERIAL PRIMARY KEY,
-    name TEXT,
-    Address
+    name TEXT NOT NULL,
+    address TEXT,
+    city TEXT,
+    country TEXT
 );
 
 CREATE TABLE borrowings (
@@ -29,3 +25,12 @@ CREATE TABLE borrowings (
     book_id INT REFERENCES books(id) ON DELETE CASCADE,
     patron_id INT REFERENCES patrons(id) ON DELETE CASCADE
 );
+
+INSERT INTO patrons (name, address, city, country)
+VALUES ('Andy', '1 Main Stl.', 'Boston', 'US');
+
+INSERT INTO books (title, isbn, author_name)
+VALUES ('Dear Diary', '978-3-16-148410-0', 'Andrew A.');
+
+INSERT INTO books (title, isbn, author_name)
+VALUES ('My Pokemon Collection', '978-3-16-148410-0', 'Bernard B.');

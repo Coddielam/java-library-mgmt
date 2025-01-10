@@ -48,13 +48,7 @@ public class BookRepositoryImpl implements BookRepository {
             Collection<Book> books = new ArrayList<>();
             
             while (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getString("id"));
-                book.setTitle(resultSet.getString("title"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setBookStatus(BookStatus.valueOf(resultSet.getString("book_status")));
-                book.setAuthorName(resultSet.getString("author_name"));
-                books.add(book);
+                books.add(mapResultSetToBook(resultSet));
             }
             
             return books;
@@ -80,16 +74,7 @@ public class BookRepositoryImpl implements BookRepository {
             
             ResultSet rs = preparedStatement.getResultSet();
             if (rs.next()) {
-                Book insertedBook = new Book();
-                insertedBook.setId(Integer.toString(rs.getInt("id")));
-                insertedBook.setTitle(rs.getString("title"));
-                insertedBook.setIsbn(rs.getString("isbn"));
-                insertedBook.setBookStatus(
-                    BookStatus.valueOf(rs.getString("book_status"))
-                );
-                insertedBook.setAuthorName(rs.getString("author_name"));
-    
-                return insertedBook;
+                return mapResultSetToBook(rs);
             } else {
                 throw new SQLException("No generated id");
             }
@@ -134,5 +119,16 @@ public class BookRepositoryImpl implements BookRepository {
             preparedStatement.setInt(1, Integer.parseInt(book.getId()));
             return preparedStatement.executeUpdate();
         }
+    }
+
+    private Book mapResultSetToBook(ResultSet rs) throws SQLException {
+            Book book = new Book();
+            book.setId(rs.getString("id"));
+            book.setTitle(rs.getString("title"));
+            book.setIsbn(rs.getString("isbn"));
+            book.setBookStatus(BookStatus.valueOf(rs.getString("book_status")));
+            book.setAuthorName(rs.getString("author_name"));
+            
+            return book;
     }
 }
