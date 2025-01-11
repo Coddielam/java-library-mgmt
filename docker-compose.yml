@@ -4,7 +4,6 @@ version: '3.9'
 services:
 
   db:
-    # TODO: wraps postgres and put initialization scripts in
     image: edlam711/postgres
     # restart: always
     # set shared memory limit when using docker-compose

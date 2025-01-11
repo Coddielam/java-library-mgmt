@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
+import exception.ResourceNotFound;
 import org.example.dto.ErrorDto;
+import org.example.exception.EntityNotFound;
 
 import java.io.OutputStream;
 
@@ -20,10 +22,13 @@ public class ExceptionFilter extends Filter {
         } catch (Exception e) {
             Throwable cause = e.getCause();
 
-            if (cause instanceof UnrecognizedPropertyException) {
+            if (cause instanceof EntityNotFound || cause instanceof ResourceNotFound) {
+                handleSendErrorResponse(exchange, 404, "Resource not found");
+            } else if (cause instanceof UnrecognizedPropertyException) {
                 handleSendErrorResponse(exchange, 400, "Bad request body");
             } else {
                 handleSendErrorResponse(exchange, 500, "Internal Error");
+                e.printStackTrace();
             }
         }
     }

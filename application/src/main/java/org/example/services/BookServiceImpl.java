@@ -5,6 +5,7 @@ import org.example.dto.BookDto;
 import org.example.dto.CreateBookDto;
 import org.example.dto.GetBookDto;
 import org.example.entity.Book;
+import org.example.exception.EntityNotFound;
 import org.example.repository.BookRepository;
 
 import java.sql.SQLException;
@@ -40,17 +41,16 @@ public class BookServiceImpl implements BooksService{
     }
 
     @Override
-    public int update(BookDto dto) throws SQLException {
-        int rowsAffected = bookRepository.update(BookDtoMapper.mapToBook(dto));
-        return rowsAffected;
+    public int update(BookDto dto) throws SQLException, EntityNotFound {
+        Book book = bookRepository.get(dto.id());
+        if (book == null) throw new EntityNotFound();
+        return bookRepository.update(BookDtoMapper.mapToBook(dto));
     }
 
     @Override
-    public int delete(String id) throws SQLException {
+    public int delete(String id) throws SQLException, EntityNotFound {
         Book book = bookRepository.get(id);
-        if (book != null) {
-            return bookRepository.delete(book);
-        }
-        return 0;
+        if (book == null) throw new EntityNotFound();
+        return bookRepository.delete(book);
     }
 }

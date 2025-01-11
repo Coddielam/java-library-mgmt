@@ -1,11 +1,9 @@
 import com.sun.net.httpserver.*;
+import exception.ResourceNotFound;
 import filter.ExceptionFilter;
 import filter.RequestLoggingFilter;
 
-import javax.management.RuntimeErrorException;
-import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.sql.SQLException;
 import java.util.*;
 
 public class Server {
@@ -27,6 +25,9 @@ public class Server {
                         switch (requestMethod) {
                             case "GET" -> booksController.handleGetBooks(exchange);
                             case "POST" -> booksController.handlePostBooks(exchange);
+                            case "PUT" -> booksController.handlePutBook(exchange);
+                            case "DELETE" -> booksController.handleDeleteBook(exchange);
+                            default -> handleUnmatchedRequest(exchange);
                         }
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -48,4 +49,7 @@ public class Server {
         return new ServiceLocator(new ServerServiceInitalizationContext());
     }
 
+    private static void handleUnmatchedRequest(HttpExchange exchange) throws ResourceNotFound {
+        throw new ResourceNotFound();
+    }
 }

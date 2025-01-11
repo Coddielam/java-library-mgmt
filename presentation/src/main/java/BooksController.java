@@ -4,9 +4,6 @@ import org.example.dto.BookDto;
 import org.example.dto.CreateBookDto;
 import org.example.services.BooksService;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 public class BooksController extends ControllerBase {
 
     private final BooksService booksService;
@@ -24,7 +21,19 @@ public class BooksController extends ControllerBase {
 
     public void handlePostBooks(HttpExchange httpExchange) throws Exception {
         CreateBookDto dto = parseJSONRequestBody(httpExchange.getRequestBody(), CreateBookDto.class);
-        BookDto bookDto = this.booksService.create(dto);
+        BookDto bookDto = booksService.create(dto);
         sendJson(httpExchange, bookDto, 200);
+    }
+
+    public void handlePutBook(HttpExchange httpExchange) throws Exception {
+        BookDto dto = parseJSONRequestBody(httpExchange.getRequestBody(), BookDto.class);
+        booksService.update(dto);
+        sendJson(httpExchange, null, 204);
+    }
+
+    public void handleDeleteBook(HttpExchange httpExchange) throws Exception {
+        BookDto dto = parseJSONRequestBody(httpExchange.getRequestBody(), BookDto.class);
+        booksService.delete(dto.id());
+        sendJson(httpExchange, null, 204);
     }
 }

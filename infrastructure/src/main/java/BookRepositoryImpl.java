@@ -19,17 +19,11 @@ public class BookRepositoryImpl implements BookRepository {
         ) {
             String sql = "SELECT * FROM books WHERE id = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(0, Integer.parseInt(id));
+            preparedStatement.setInt(1, Integer.parseInt(id));
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getString("id"));
-                book.setTitle(resultSet.getString("title"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setBookStatus(BookStatus.valueOf(resultSet.getString("book_status"))); // FIXME
-                book.setAuthorName(resultSet.getString("author_name"));
-                return book;
+                return mapResultSetToBook(resultSet);
             }
 
             return null;
@@ -99,8 +93,7 @@ public class BookRepositoryImpl implements BookRepository {
             preparedStatement.setString(2, book.getIsbn());
             preparedStatement.setString(3, book.getBookStatus().name());
             preparedStatement.setString(4, book.getAuthorName());
-            preparedStatement.setString(5, book.getAuthorName());
-            preparedStatement.setInt(6, Integer.parseInt(book.getId()));
+            preparedStatement.setInt(5, Integer.parseInt(book.getId()));
 
             return preparedStatement.executeUpdate();
         }
