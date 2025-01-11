@@ -15,14 +15,14 @@ public class BooksController extends ControllerBase {
         this.booksService = booksService;
     }
 
-    public void handleGetBooks(HttpExchange httpExchange) throws IOException, SQLException {
+    public void handleGetBooks(HttpExchange httpExchange) throws Exception {
         sendJson(
                 httpExchange,
                 this.booksService.get(),
                 200);
     }
 
-    public void handlePostBooks(HttpExchange httpExchange) throws IOException, SQLException {
+    public void handlePostBooks(HttpExchange httpExchange) throws Exception {
         CreateBookDto dto = parseJSONRequestBody(httpExchange.getRequestBody(), CreateBookDto.class);
         BookDto bookDto = this.booksService.create(dto);
         sendJson(httpExchange, bookDto, 200);

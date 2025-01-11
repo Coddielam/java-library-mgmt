@@ -28,8 +28,6 @@ public class ControllerBase {
             T parsed = parse(jsonString, dto);
             System.out.println(parsed);
             return parsed;
-        } catch (Exception e) {
-            throw e;
         }
     }
 
