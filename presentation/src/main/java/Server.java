@@ -37,9 +37,10 @@ public class Server {
                                 case "GET" -> booksController.handleGetBooks(exchange);
                                 case "POST" -> booksController.handlePostBooks(exchange);
                             }
-                        } catch (SQLException e) {
+                        } catch (Exception e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
+                            ControllerBase.sendResponse(exchange, "text/plain", "something went wrong", 500);
                         }
                     });
 
